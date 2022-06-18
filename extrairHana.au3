@@ -44,15 +44,15 @@ Next
    Local $aSQL_bat[$iNumero_CCs + 8]
 
    $aSQL_bat[0] = 'SELECT DISTINCT'
-   $aSQL_bat[2] = 'ZCGACCOUN AS CONTA_CONTRATO, ZCGDOCREF AS FATURA, ZCGFLPARC AS PARCELAMENTO, ZCGDTREAL AS DT_VENCIMENTO, SUM(ZCGAMOUNT) AS MONTANTE'
-   $aSQL_bat[4] = 'FROM CLP961264.CTR_SEMANAL WHERE ZCGACCOUN IN ('
+   $aSQL_bat[2] = 'ACC AS CONTA_CONTRATO, FAT AS FATURA, PARC AS PARCELAMENTO, REAL AS DT_VENCIMENTO, SUM(MNT) AS MONTANTE'
+   $aSQL_bat[4] = 'FROM SCHEMA.TABLE WHERE ACC IN ('
 
    For $i = 5 to $iNumero_CCs + 4
 	  $aSQL_bat[$i] = $aConta_contrato[$i-5]
    Next
 
    $aSQL_bat[$iNumero_CCs + 5] = ')'
-   $aSQL_bat[$iNumero_CCs + 7] = 'GROUP BY ZCGACCOUN, ZCGDOCREF, ZCGFLPARC, ZCGDTREAL'
+   $aSQL_bat[$iNumero_CCs + 7] = 'GROUP BY ACC, FAT, PARC, REAL'
 
    _FileWriteFromArray(@MyDocumentsDir & "\sql_bat.bat", $aSQL_bat)
 
@@ -60,7 +60,7 @@ Next
 
    Local $aHdbsql_bat[1]
 
-     $aHdbsql_bat[0] = '"C:\Program Files\sap\hdbclient\hdbsql" -n 10.150.16.90:30015 -i 00 -u ' & $sUser & ' -p ' & $sPassword & ' -I "' & @MyDocumentsDir &'\sql_bat.bat" -o "' & @MyDocumentsDir &'\extract.txt"'
+     $aHdbsql_bat[0] = '"C:\Program Files\sap\hdbclient\hdbsql" -n server -i instancenumber -u ' & $sUser & ' -p ' & $sPassword & ' -I "' & @MyDocumentsDir &'\sql_bat.bat" -o "' & @MyDocumentsDir &'\extract.txt"'
 
    _FileWriteFromArray(@MyDocumentsDir & "\extrair.bat", $aHdbsql_bat)
 
